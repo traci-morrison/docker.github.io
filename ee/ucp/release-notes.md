@@ -23,6 +23,45 @@ upgrade your installation to the latest release.
 > For archived versions of UCP documentation, [view the docs archives](https://docs.docker.com/docsarchive/).
 
 # Version 3.2
+## 3.2.4
+2019-11-13
+
+### Known issues
+* UCP currently turns on vulnerability information for images deployed within UCP by default for upgrades. This may cause clusters to fail due to performance issues. (ENGORC-2746)
+* For Red Hat Enterprise Linux (RHEL) 8, if firewalld is running and `FirewallBackend=nftables` is set in `/etc/firewalld/firewalld.conf`, change this to `FirewallBackend=iptables`, or you can explicitly run the following commands to allow traffic to enter the default bridge (docker0) network:
+
+    ```
+    firewall-cmd --permanent --zone=trusted --add-interface=docker0
+    firewall-cmd --reload
+    ```
+### Platforms
+* RHEL 8.0 is now supported.
+
+### Kubernetes
+* Kubernetes has been upgraded to version 1.14.8 that fixes CVE-2019-11253.
+* Added a feature that allows the user to enable SecureOverlay as an add-on on UCP via an install flag called `secure-overlay`. This flag enables IPSec Network Encryption in Kubernetes.
+
+### Security
+* Upgraded Golang to 1.13.2. (ENGORC-2762)
+* Fixed an issue that allowed a user with a "restricted control" role to obtain Admin access to UCP by starting a container with `docker run --volumes-from ucp-proxy`. (ENGORC-2781)
+
+### Bug fixes
+* Fixed an issue where UCP 3.2 backup performs an append not overwrite when `--file` switch is used. (FIELD-2043)
+* Fixed an issue where the Calico/latest image was missing from the UCP offline bundle. (FIELD-1584)
+* Image scan result aggregation is now disabled by default for new UCP installations. This feature can be configured by a new `ImageScanAggregationEnabled` setting in the UCP tuning config. (ENGORC-2746)
+* Adds authorization checks for the volumes referenced by the `VolumesFrom` Containers option. Previously, this field was ignored by the container create request parser, 
+leading to a gap in permissions checks.  (ENGORC-2781)
+
+### Components
+
+| Component             | Version |
+| --------------------- | ------- |
+| UCP                   | 3.2.4   |
+| Kubernetes            | 1.14.8  |
+| Calico                | 3.8.2   |
+| Interlock             | 3.0.0   |
+| Interlock NGINX proxy | 1.14.2  |
+
 
 ## 3.2.3
 2019-10-21
@@ -252,7 +291,7 @@ docker service create --mode=global --restart-condition none --mount
 type=bind,source=/var/run/docker.sock,target=/var/run/docker.sock mavenugo/swarm-exec:17.03.0-ce docker
 exec ucp-kubelet "/bin/bash" "-c" "sed -i 's/metadata_csum,//g' /etc/mke2fs.conf"
 ```
-You can now switch nodes to be kubernetes workers.
+You can now switch nodes to be Kubernetes workers.
 
 #### Kubelets or Calico-node pods are down
 
@@ -371,6 +410,29 @@ The workaround is to use a swarm service to deploy this change across the cluste
 | Interlock NGINX proxy | 1.14.2 |
 
 # Version 3.1
+
+## 3.1.12
+2019-11-13
+
+### Security
+* Upgraded Golang to 1.12.12.
+
+**Kubernetes**
+* Kubernetes has been upgraded to fix CVE-2019-11253.
+
+**Bug fixes**
+* Adds authorization checks for the volumes referenced by the `VolumesFrom` Containers option. Previously, this field was ignored by the container create request parser, 
+leading to a gap in permissions checks.  (ENGORC-2781)
+
+### Components
+
+| Component      | Version |
+| ----------- | ----------- |
+| UCP      | 3.1.12 |
+| Kubernetes   | 1.14.3 |
+| Calico      | 3.5.7 |
+| Interlock   | 2.4.0 |
+| Interlock NGINX proxy | 1.14.2 |
 
 ## 3.1.11
 2019-10-08
@@ -868,6 +930,28 @@ The following features are deprecated in UCP 3.1.
 
 # Version 3.0
 
+## 3.0.16
+2019-11-13
+
+### Security
+* Upgraded Golang to 1.12.12.
+
+### Kubernetes
+* Kubernetes has been upgraded to fix CVE-2019-11253.
+
+### Bug fixes
+* Adds authorization checks for the volumes referenced by the `VolumesFrom` Containers option. Previously, this field was ignored by the container create request parser, 
+leading to a gap in permissions checks.  (ENGORC-2781)
+
+### Components
+
+| Component      | Version |
+| ----------- | ----------- |
+| UCP      | 3.0.16 |
+| Kubernetes   | 1.11.2 |
+| Calico      | 3.2.3 |
+| Interlock (NGINX)   | 1.13.12 |
+
 ## 3.0.15
 2019-10-08
 
@@ -893,8 +977,7 @@ The following features are deprecated in UCP 3.1.
 2019-09-03
 
 ### Kubernetes
-* Kubernetes has been upgraded to version 1.8.15-docker-7, this has been built
-  with Golang 1.12.9.
+* Kubernetes has been upgraded to version 1.8.15-docker-7. This version was built with Golang 1.12.9.
 * Kubernetes DNS has been upgraded to 1.14.13.
 
 ### Networking
@@ -1433,6 +1516,16 @@ deprecated. Deploy your applications as Swarm services or Kubernetes workloads.
 
 # Version 2.2
 
+## Version 2.2.23
+2019-11-13
+
+### Security
+* Upgraded Golang to 1.12.12.
+
+### Bug fixes
+* Adds authorization checks for the volumes referenced by the `VolumesFrom` Containers option. Previously, this field was ignored by the container create request parser, 
+leading to a gap in permissions checks.  (ENGORC-2781)
+
 ## Version 2.2.22
 2019-10-08
 
@@ -1469,7 +1562,7 @@ instead of the correct image for the worker architecture.
 * Searching for images in the UCP images UI doesn't work.
 * Removing a stack may leave orphaned volumes.
 * Storage metrics are not available for Windows.
-* You can't create a bridge network from the web interface. As a workaround use
+* You can't create a bridge network from the web interface. As a workaround, use
  `<node-name>/<network-name>`.
 
 ## Version 2.2.19
