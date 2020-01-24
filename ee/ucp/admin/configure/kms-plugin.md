@@ -1,7 +1,7 @@
 ---
 title: KMS plugin support for UCP
 description: Learn about the KMS plugin for UCP.
-keywords: ucp, kms, kubernetes
+keywords: ucp, kms, kubernetes, plugin, configuration
 ---
 
 >{% include enterprise_label_shortform.md %}
