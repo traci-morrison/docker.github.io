@@ -23,8 +23,8 @@ The following table shows the configuration options for the KMS plugin. These op
 | Parameter        | Type | Description                              |
 |------------------|------|------------------------------------------|
 | `kms_enabled`    | bool | Determines if UCP should configure a KMS plugin. |
-| `kms_name`<br><br><br> | str  | Name of the KMS plugin resource (for example, “vault”). |
-| `kms_endpoint`   | str  | Path of the KMS plugin socket. This path must refer to a UNIX socket on the host (for example, “/tmp/socketfile.sock”). UCP will bind mount this file to make it accessible to the API server. |
+| `kms_name` | string  | Name of the KMS plugin resource (for example, “vault”). |
+| `kms_endpoint`   | string  | Path of the KMS plugin socket. This path must refer to a UNIX socket on the host (for example, “/tmp/socketfile.sock”). UCP will bind mount this file to make it accessible to the API server. |
 | `kms_cachesize`  | int  | Number of data encryption keys (DEKs) to be cached in the clear. |
 
 ## Where to go next
